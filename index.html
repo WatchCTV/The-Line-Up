@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>The Line Up | CableTV.com</title>
+<title>TV Guide &amp; Local TV Listings | CableTV.com</title>
 <style>
 :root{--navy:#112b46;--navy-dark:#0a2036;--blue:#1477a8;--orange:#f1643c;--cream:#f7f5f1;--ink:#17324b;--muted:#65798b;--line:#dce4e9}
 *{box-sizing:border-box}
@@ -89,7 +89,6 @@ h1{max-width:720px;color:var(--navy);letter-spacing:-1.5px;margin:0;font-family:
 .help-strip strong{font-size:15px}
 .help-strip p{color:#c9d6df;margin:4px 0 0;font-size:12px}
 @media (max-width:950px){.main-nav{display:none}.header-actions{margin-left:auto}.intro-row{flex-direction:column;align-items:stretch}.provider-button{width:100%;max-width:420px}.guide-toolbar{flex-direction:column;align-items:stretch}.toolbar-actions{justify-content:space-between}.toolbar-actions button{flex:1}}
-.brand-logo{height:40px;width:auto;display:block}
 </style>
 </head>
 <body>
@@ -98,19 +97,17 @@ h1{max-width:720px;color:var(--navy);letter-spacing:-1.5px;margin:0;font-family:
   <div class="utility-bar"><span>We may earn money when you click our links.</span><button type="button">How we make money</button></div>
 
   <header class="brand-header">
-    <a class="brand-mark" href="#"><img src="logo2.png" alt="CableTV.com" class="brand-logo"></a>
+    <a class="brand-mark" href="#"><span>Cable</span><span class="brand-tv">TV</span><span class="brand-dot">.com</span></a>
     <nav class="main-nav">
-      <a class="active" href="#">The Line Up</a>
-      <a href="https://www.cabletv.com/tv">TV</a>
-      <a href="https://www.cabletv.com/internet">Internet</a>
-      <a href="https://www.cabletv.com/streaming">Streaming</a>
-      <a href="https://www.cabletv.com/what-to-watch">What to Watch</a>
-      <a href="#">Discover</a>
-      <a href="https://www.cabletv.com/business">Business</a>
+      <a class="active" href="#">TV Guide</a>
+      <a href="#">TV Providers</a>
+      <a href="#">Streaming</a>
+      <a href="#">Internet</a>
+      <a href="#">Resources</a>
     </nav>
     <div class="header-actions">
       <button type="button" aria-label="Search">&#9906;</button>
-      <button type="button" class="zip-button" id="zipButton"><span>&#8982;</span> <span id="zipValue">84101</span></button>
+      <button type="button" class="zip-button"><span>&#8982;</span> 84101</button>
     </div>
   </header>
 
@@ -119,12 +116,12 @@ h1{max-width:720px;color:var(--navy);letter-spacing:-1.5px;margin:0;font-family:
       <div class="eyebrow">LIVE TV LISTINGS</div>
       <div class="intro-row">
         <div>
-          <h1 id="pageTitle">The Line Up for Salt Lake City, UT</h1>
+          <h1 id="pageTitle">TV Guide for Salt Lake City, UT</h1>
           <p>Find out what&rsquo;s on TV tonight and never miss your favorite shows, movies, and live sports.</p>
         </div>
         <button type="button" class="provider-button">
           <span class="provider-icon">&#8982;</span>
-          <span><small>YOUR TV PROVIDER</small><strong>Broadcast &mdash; <span id="providerZip">84101</span></strong></span>
+          <span><small>YOUR TV PROVIDER</small><strong>Broadcast &mdash; 84101</strong></span>
           <b>&#8963;</b>
         </button>
       </div>
@@ -163,6 +160,7 @@ h1{max-width:720px;color:var(--navy);letter-spacing:-1.5px;margin:0;font-family:
 
       <div class="guide-footer">
         <span id="footerCount">&nbsp;</span>
+        <button type="button" id="loadMoreBtn">Load more channels</button>
       </div>
     </section>
 
@@ -242,6 +240,7 @@ h1{max-width:720px;color:var(--navy);letter-spacing:-1.5px;margin:0;font-family:
   var dateInputEl = document.getElementById('dateInput');
   var scheduleWrap = document.getElementById('scheduleWrap');
   var footerCount = document.getElementById('footerCount');
+  var loadMoreBtn = document.getElementById('loadMoreBtn');
   var filterStrip = document.getElementById('filterStrip');
 
   document.getElementById('prevDay').addEventListener('click', function(){ shiftDay(-1); });
@@ -264,7 +263,10 @@ h1{max-width:720px;color:var(--navy);letter-spacing:-1.5px;margin:0;font-family:
     if(!btn) return;
     setFilter(btn.dataset.filter);
   });
- });
+  loadMoreBtn.addEventListener('click', function(){
+    state.visibleCount += 8;
+    render();
+  });
 
   function setFilter(f){
     state.filter = f;
@@ -303,6 +305,7 @@ h1{max-width:720px;color:var(--navy);letter-spacing:-1.5px;margin:0;font-family:
     dateLabelEl.textContent = dateLabel(state.date);
     scheduleWrap.innerHTML = '<div class="empty-state"><span>&#9711;</span><h3>Loading schedule&hellip;</h3><p>Pulling live data from TVmaze.</p></div>';
     footerCount.textContent = '';
+    loadMoreBtn.disabled = true;
 
     var url = 'https://api.tvmaze.com/schedule?country=' + COUNTRY + '&date=' + isoDate(state.date);
 
@@ -366,6 +369,7 @@ h1{max-width:720px;color:var(--navy);letter-spacing:-1.5px;margin:0;font-family:
         '<p>Try a different filter or date.</p><button id="resetBtn" type="button">Show all channels</button></div>';
       document.getElementById('resetBtn').addEventListener('click', function(){ setFilter('All'); });
       footerCount.textContent = 'Showing 0 channels';
+      loadMoreBtn.disabled = true;
       return;
     }
 
@@ -427,31 +431,11 @@ h1{max-width:720px;color:var(--navy);letter-spacing:-1.5px;margin:0;font-family:
     });
 
     footerCount.textContent = 'Showing ' + visible.length + ' of ' + totalMatching + ' channels';
-
+    loadMoreBtn.disabled = visible.length >= totalMatching;
+    loadMoreBtn.style.display = visible.length >= totalMatching ? 'none' : '';
   }
 
   loadSchedule();
-})();
-</script>
-<script>
-(function(){
-  var zipBtn = document.getElementById('zipButton');
-  var zipValueEl = document.getElementById('zipValue');
-  if (zipBtn) {
-    zipBtn.addEventListener('click', function(){
-      var current = zipValueEl ? zipValueEl.textContent : '';
-      var input = window.prompt('Enter your ZIP code to update local listings:', current);
-      if (input === null) return;
-      var zip = input.trim();
-      if (!/^\d{5}$/.test(zip)) {
-        window.alert('Please enter a valid 5-digit ZIP code.');
-        return;
-      }
-      if (zipValueEl) zipValueEl.textContent = zip;
-      var providerZipEl = document.getElementById('providerZip');
-      if (providerZipEl) providerZipEl.textContent = zip;
-    });
-  }
 })();
 </script>
 </body>
