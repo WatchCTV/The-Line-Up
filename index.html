@@ -89,7 +89,7 @@ h1{max-width:720px;color:var(--navy);letter-spacing:-1.5px;margin:0;font-family:
 .help-strip strong{font-size:15px}
 .help-strip p{color:#c9d6df;margin:4px 0 0;font-size:12px}
 @media (max-width:950px){.main-nav{display:none}.header-actions{margin-left:auto}.intro-row{flex-direction:column;align-items:stretch}.provider-button{width:100%;max-width:420px}.guide-toolbar{flex-direction:column;align-items:stretch}.toolbar-actions{justify-content:space-between}.toolbar-actions button{flex:1}}
-.brand-logo{height:56px;width:auto;display:block}
+.brand-logo{height:40px;width:auto;display:block}
 </style>
 </head>
 <body>
@@ -98,9 +98,15 @@ h1{max-width:720px;color:var(--navy);letter-spacing:-1.5px;margin:0;font-family:
   <div class="utility-bar"><span>We may earn money when you click our links.</span><button type="button">How we make money</button></div>
 
   <header class="brand-header">
-    <a class="brand-mark" href="#"><img src="logo.png" alt="The Line Up by CableTV.com" class="brand-logo"></a>
+    <a class="brand-mark" href="#"><img src="logo2.png" alt="CableTV.com" class="brand-logo"></a>
     <nav class="main-nav">
       <a class="active" href="#">The Line Up</a>
+      <a href="https://www.cabletv.com/tv">TV</a>
+      <a href="https://www.cabletv.com/internet">Internet</a>
+      <a href="https://www.cabletv.com/streaming">Streaming</a>
+      <a href="https://www.cabletv.com/what-to-watch">What to Watch</a>
+      <a href="#">Discover</a>
+      <a href="https://www.cabletv.com/business">Business</a>
     </nav>
     <div class="header-actions">
       <button type="button" aria-label="Search">&#9906;</button>
@@ -118,7 +124,7 @@ h1{max-width:720px;color:var(--navy);letter-spacing:-1.5px;margin:0;font-family:
         </div>
         <button type="button" class="provider-button">
           <span class="provider-icon">&#8982;</span>
-          <span><small>YOUR TV PROVIDER</small><strong>Broadcast &mdash; 84101</strong></span>
+          <span><small>YOUR TV PROVIDER</small><strong>Broadcast &mdash; <span id="providerZip">84101</span></strong></span>
           <b>&#8963;</b>
         </button>
       </div>
@@ -450,6 +456,8 @@ h1{max-width:720px;color:var(--navy);letter-spacing:-1.5px;margin:0;font-family:
         return;
       }
       if (zipValueEl) zipValueEl.textContent = zip;
+      var providerZipEl = document.getElementById('providerZip');
+      if (providerZipEl) providerZipEl.textContent = zip;
     });
   }
 })();
