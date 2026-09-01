@@ -163,7 +163,6 @@ h1{max-width:720px;color:var(--navy);letter-spacing:-1.5px;margin:0;font-family:
 
       <div class="guide-footer">
         <span id="footerCount">&nbsp;</span>
-        <button type="button" id="loadMoreBtn">Load more channels</button>
       </div>
     </section>
 
@@ -189,7 +188,7 @@ h1{max-width:720px;color:var(--navy);letter-spacing:-1.5px;margin:0;font-family:
     windowEnd: 24 * 60,
     filter: 'All',
     favorites: new Set(),
-    visibleCount: 8,
+    visibleCount: Infinity,
     episodesByNetwork: {}
   };
 
@@ -243,7 +242,6 @@ h1{max-width:720px;color:var(--navy);letter-spacing:-1.5px;margin:0;font-family:
   var dateInputEl = document.getElementById('dateInput');
   var scheduleWrap = document.getElementById('scheduleWrap');
   var footerCount = document.getElementById('footerCount');
-  var loadMoreBtn = document.getElementById('loadMoreBtn');
   var filterStrip = document.getElementById('filterStrip');
 
   document.getElementById('prevDay').addEventListener('click', function(){ shiftDay(-1); });
@@ -266,10 +264,7 @@ h1{max-width:720px;color:var(--navy);letter-spacing:-1.5px;margin:0;font-family:
     if(!btn) return;
     setFilter(btn.dataset.filter);
   });
-  loadMoreBtn.addEventListener('click', function(){
-    state.visibleCount += 8;
-    render();
-  });
+ });
 
   function setFilter(f){
     state.filter = f;
@@ -308,7 +303,6 @@ h1{max-width:720px;color:var(--navy);letter-spacing:-1.5px;margin:0;font-family:
     dateLabelEl.textContent = dateLabel(state.date);
     scheduleWrap.innerHTML = '<div class="empty-state"><span>&#9711;</span><h3>Loading schedule&hellip;</h3><p>Pulling live data from TVmaze.</p></div>';
     footerCount.textContent = '';
-    loadMoreBtn.disabled = true;
 
     var url = 'https://api.tvmaze.com/schedule?country=' + COUNTRY + '&date=' + isoDate(state.date);
 
@@ -372,7 +366,6 @@ h1{max-width:720px;color:var(--navy);letter-spacing:-1.5px;margin:0;font-family:
         '<p>Try a different filter or date.</p><button id="resetBtn" type="button">Show all channels</button></div>';
       document.getElementById('resetBtn').addEventListener('click', function(){ setFilter('All'); });
       footerCount.textContent = 'Showing 0 channels';
-      loadMoreBtn.disabled = true;
       return;
     }
 
@@ -434,8 +427,7 @@ h1{max-width:720px;color:var(--navy);letter-spacing:-1.5px;margin:0;font-family:
     });
 
     footerCount.textContent = 'Showing ' + visible.length + ' of ' + totalMatching + ' channels';
-    loadMoreBtn.disabled = visible.length >= totalMatching;
-    loadMoreBtn.style.display = visible.length >= totalMatching ? 'none' : '';
+
   }
 
   loadSchedule();
