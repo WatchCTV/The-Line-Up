@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TV Guide &amp; Local TV Listings | CableTV.com</title>
+<title>The Line Up | CableTV.com</title>
 <style>
 :root{--navy:#112b46;--navy-dark:#0a2036;--blue:#1477a8;--orange:#f1643c;--cream:#f7f5f1;--ink:#17324b;--muted:#65798b;--line:#dce4e9}
 *{box-sizing:border-box}
@@ -89,6 +89,7 @@ h1{max-width:720px;color:var(--navy);letter-spacing:-1.5px;margin:0;font-family:
 .help-strip strong{font-size:15px}
 .help-strip p{color:#c9d6df;margin:4px 0 0;font-size:12px}
 @media (max-width:950px){.main-nav{display:none}.header-actions{margin-left:auto}.intro-row{flex-direction:column;align-items:stretch}.provider-button{width:100%;max-width:420px}.guide-toolbar{flex-direction:column;align-items:stretch}.toolbar-actions{justify-content:space-between}.toolbar-actions button{flex:1}}
+.brand-logo{height:56px;width:auto;display:block}
 </style>
 </head>
 <body>
@@ -97,17 +98,13 @@ h1{max-width:720px;color:var(--navy);letter-spacing:-1.5px;margin:0;font-family:
   <div class="utility-bar"><span>We may earn money when you click our links.</span><button type="button">How we make money</button></div>
 
   <header class="brand-header">
-    <a class="brand-mark" href="#"><span>Cable</span><span class="brand-tv">TV</span><span class="brand-dot">.com</span></a>
+    <a class="brand-mark" href="#"><img src="logo.png" alt="The Line Up by CableTV.com" class="brand-logo"></a>
     <nav class="main-nav">
-      <a class="active" href="#">TV Guide</a>
-      <a href="#">TV Providers</a>
-      <a href="#">Streaming</a>
-      <a href="#">Internet</a>
-      <a href="#">Resources</a>
+      <a class="active" href="#">The Line Up</a>
     </nav>
     <div class="header-actions">
       <button type="button" aria-label="Search">&#9906;</button>
-      <button type="button" class="zip-button"><span>&#8982;</span> 84101</button>
+      <button type="button" class="zip-button" id="zipButton"><span>&#8982;</span> <span id="zipValue">84101</span></button>
     </div>
   </header>
 
@@ -116,7 +113,7 @@ h1{max-width:720px;color:var(--navy);letter-spacing:-1.5px;margin:0;font-family:
       <div class="eyebrow">LIVE TV LISTINGS</div>
       <div class="intro-row">
         <div>
-          <h1 id="pageTitle">TV Guide for Salt Lake City, UT</h1>
+          <h1 id="pageTitle">The Line Up for Salt Lake City, UT</h1>
           <p>Find out what&rsquo;s on TV tonight and never miss your favorite shows, movies, and live sports.</p>
         </div>
         <button type="button" class="provider-button">
@@ -436,6 +433,25 @@ h1{max-width:720px;color:var(--navy);letter-spacing:-1.5px;margin:0;font-family:
   }
 
   loadSchedule();
+})();
+</script>
+<script>
+(function(){
+  var zipBtn = document.getElementById('zipButton');
+  var zipValueEl = document.getElementById('zipValue');
+  if (zipBtn) {
+    zipBtn.addEventListener('click', function(){
+      var current = zipValueEl ? zipValueEl.textContent : '';
+      var input = window.prompt('Enter your ZIP code to update local listings:', current);
+      if (input === null) return;
+      var zip = input.trim();
+      if (!/^\d{5}$/.test(zip)) {
+        window.alert('Please enter a valid 5-digit ZIP code.');
+        return;
+      }
+      if (zipValueEl) zipValueEl.textContent = zip;
+    });
+  }
 })();
 </script>
 </body>
