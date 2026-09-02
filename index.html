@@ -435,12 +435,6 @@ h1{max-width:720px;color:var(--navy);letter-spacing:-1.5px;margin:0;font-family:
     loadMoreBtn.style.display = visible.length >= totalMatching ? 'none' : '';
   }
 
-
-  // Tier 2: Update city name when zip code or provider changes
-  const zipToCityMap = {'84101':'Salt Lake City','90210':'Beverly Hills','10001':'New York','60601':'Chicago','75201':'Dallas','85001':'Phoenix'};
-  function updateCityHeading(zipCode) {const city = zipToCityMap[zipCode] || 'Unknown'; document.getElementById('pageTitle').textContent = 'The Line Up for ' + city + ', UT';}
-  document.querySelector('.zip-button').addEventListener('click', function() {const zip = this.textContent.match(/\d{5}/)[0]; updateCityHeading(zip);});
-  document.querySelector('.provider-button').addEventListener('click', function() {const zip = this.textContent.match(/\d{5}/)[0]; updateCityHeading(zip);});
   loadSchedule();
 
   script>
