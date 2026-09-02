@@ -437,40 +437,6 @@ h1{max-width:720px;color:var(--navy);letter-spacing:-1.5px;margin:0;font-family:
 
   loadSchedule();
 
-  // TIER 2: Dynamic city name update
-  const zipCodeCities = {
-      '84101': 'Salt Lake City',
-      '90210': 'Beverly Hills',
-      '10001': 'New York',
-      '60601': 'Chicago',
-      '75201': 'Dallas',
-      '85001': 'Phoenix'
-  };
-
-  function updateCityName(zipCode) {
-      const city = zipCodeCities[zipCode] || 'Unknown';
-      const pageTitle = document.getElementById('pageTitle');
-      const state = 'UT'; // Default to UT, can expand later
-      pageTitle.textContent = `The Line Up for ${city}, ${state}`;
-  }
-
-  // Add event listener to zip code button
-  document.querySelector('.zip-button').addEventListener('click', function() {
-      // Extract zip code from button text
-      const zipText = this.textContent.trim();
-      const zipCode = zipText.split(' ')[1] || zipText;
-      updateCityName(zipCode);
-  });
-
-  // Add event listener to provider button
-  document.querySelector('.provider-button').addEventListener('click', function() {
-      // Extract zip code from provider button text
-      const providerText = this.textContent;
-      const match = providerText.match(/(\d{5})/);
-      if (match) {
-            updateCityName(match[1]);
-      }
-  });
-</script>
+  script>
 </body>
 </html>
